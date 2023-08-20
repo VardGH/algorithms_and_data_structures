@@ -1,0 +1,74 @@
+#ifndef LINKED_LIST_HPP
+#define LINKED_LIST_HPP
+
+#include "node.hpp"
+
+template <typename T>
+class linked_list {
+public:
+    // Default constructor
+    linked_list();
+
+    // Copy constructor
+    linked_list(const linked_list<T>& other);
+
+    // Copy assignment operator
+    linked_list<T>& operator=(const linked_list<T>& other);
+
+    // Move constructor
+    linked_list(linked_list<T>&& other);
+
+    // Move assignment operator
+    linked_list<T>& operator=(linked_list<T>&& other);
+
+    // Destructor
+    ~linked_list();
+
+public:
+    // Adds an element at the end of the list
+    void push_back(const T& value); // O(n)
+
+    // Removes the last element from the list
+    void pop_back(); // O(n)
+
+    // Removes an element at a specific position
+    void erase(int pos); // O(n)
+
+    // Inserts an element at a specific position
+    void insert(const int pos, const T& value);  // O(n)
+
+    // Removes all elements from the list
+    void clear() noexcept; // O(n)
+
+    // Checks if the list is empty
+    bool is_empty() const;  // O(1)
+
+    // Returns the number of elements in the list
+    int get_size() const; // O(1)
+
+    // Adds an element at the beginning of the list
+    void push_front(const T& value);  // O(1)
+
+    // Removes the first element from the list
+    void pop_front(); // O(1)
+
+    // Prints the elements of the list
+    void print_list() const; // O(n)
+
+    // Merge two sorted linked lists and return a new sorted linked list
+    linked_list<T> merge(const linked_list<T>& list); // O(n)
+
+    // Reverse the linked list in-place
+    void revers(); // O(n)
+
+    // Algorithm
+    // void sort(); 
+
+private:
+    node<T>* m_head; // Pointer to the head node
+    int m_size;      // Number of elements in the list
+};
+
+#include "linked_list_impl.hpp"
+
+#endif // LINKED_LIST_HPP

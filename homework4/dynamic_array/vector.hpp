@@ -6,7 +6,8 @@
 namespace container {
 
 template <typename T>
-class vector {
+class vector 
+{
 public:
     vector(); // Default constructor
     explicit vector(int size); // Constructor with parameter
@@ -65,6 +66,6 @@ bool operator>=(const vector<T>& lhs, const vector<T>& rhs);
 
 } // namespace container
 
-#include "vector_impl.hpp"
+#include "vector_impl_.hpp"
 
 #endif // VECTOR_HPP
