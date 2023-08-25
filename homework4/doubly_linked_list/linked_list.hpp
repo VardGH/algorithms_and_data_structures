@@ -29,7 +29,7 @@ public:
     void push_back(const T& value); // O(n)
 
     // Removes the last element from the list
-    void pop_back(); // O(n)
+    void pop_back(); // O(1)
 
     // Removes an element at a specific position
     void erase(int pos); // O(n)
@@ -53,19 +53,22 @@ public:
     void pop_front(); // O(1)
 
     // Prints the elements of the list
-    void print_list() const; // O(n)
+    void print_list1() const; // O(n)
+
+    // Prints the elements of the list
+    void print_list2() const; // O(n)
+
+    // Merge two sorted linked lists and return a new sorted linked list
+    //linked_list<T> merge(const linked_list<T>& list); // O(n)
 
     // Reverse the linked list in-place
     void revers(); // O(n)
 
-    //
-    void merge(const linked_list<T>& list); 
-
-    // 
-    void sort(); //
+    // void sort(); 
 
 private:
     node<T>* m_head; // Pointer to the head node
+    node<T>* m_tail; // Pointer to the tail node
     int m_size;      // Number of elements in the list
 };
 

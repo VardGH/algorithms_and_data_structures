@@ -19,6 +19,7 @@ public:
 
 public:
     T m_data;
+    node<T>* m_prev;
     node<T>* m_next;
 };
 
