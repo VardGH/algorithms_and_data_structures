@@ -262,8 +262,7 @@ void linked_list<T>::sort()
     left.merge(right);
 }
 
-
-template <typename T>
+/*template <typename T>
 void linked_list<T>::merge(const linked_list<T>& list) 
 {
     if (!list.m_head) {
@@ -298,6 +297,32 @@ void linked_list<T>::merge(const linked_list<T>& list)
     m_head = res->m_next; 
 
     delete res;
+}*/
+
+template <typename T>
+void linked_list<T>::merge(const linked_list<T>& list) 
+{
+    m_head = merge_recursive(m_head, list.m_head);
+}
+
+template <typename T>
+node<T>* linked_list<T>::merge_recursive(node<T>* l1, node<T>* l2) 
+{
+    if (!l1) {
+        return l2;
+    }
+
+    if (!l2) {
+        return l1;
+    }
+
+    if (l1->m_data < l2->m_data) {
+        l1->m_next = merge_recursive(l1->m_next, l2);
+        return l1;
+    } else {
+        l2->m_next = merge_recursive(l1, l2->m_next);
+        return l2;
+    }
 }
 
 #endif // LINKED_LIST_IMPL_HPP

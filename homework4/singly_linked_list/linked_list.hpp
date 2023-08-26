@@ -61,6 +61,9 @@ public:
     //
     void merge(const linked_list<T>& list); 
 
+    //
+    node<T>* merge_recursive(node<T>* l1, node<T>* l2);
+
     // 
     void sort(); //
 
