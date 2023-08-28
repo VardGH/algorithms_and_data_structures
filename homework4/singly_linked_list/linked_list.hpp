@@ -4,7 +4,8 @@
 #include "node.hpp"
 
 template <typename T>
-class linked_list {
+class linked_list 
+{
 public:
     // Default constructor
     linked_list();
@@ -32,7 +33,7 @@ public:
     void pop_back(); // O(n)
 
     // Removes an element at a specific position
-    void erase(int pos); // O(n)
+    void erase(const int pos); // O(n)
 
     // Inserts an element at a specific position
     void insert(const int pos, const T& value);  // O(n)
@@ -58,14 +59,14 @@ public:
     // Reverse the linked list in-place
     void revers(); // O(n)
 
-    //
-    void merge(const linked_list<T>& list); 
-
-    //
+    // Recursively merge two sorted linked lists
     node<T>* merge_recursive(node<T>* l1, node<T>* l2);
 
-    // 
-    void sort(); //
+    // Sort the linked list using the merge sort algorithm.
+    void sort(); // O(n log n)
+
+private:
+    node<T>* sort_(node<T>* list);
 
 private:
     node<T>* m_head; // Pointer to the head node

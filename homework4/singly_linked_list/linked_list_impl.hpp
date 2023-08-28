@@ -100,24 +100,29 @@ void linked_list<T>::push_back(const T& value)
 template <typename T>
 void linked_list<T>::pop_back() 
 {
-    if (m_head) {
-        if (m_head->m_next) {
-            node<T>* current = m_head;
-            while (current->m_next->m_next) {
-                current = current->m_next;
-            }
-            delete current->m_next;
-            current->m_next = nullptr;
-        } else {
-            delete m_head;
-            m_head = nullptr;
-        }
-        --m_size;
+    if (!m_head) {
+        return; 
     }
+
+    if (!m_head->m_next) {
+        delete m_head;
+        m_head = nullptr;
+        m_size = 0;
+        return;
+    }
+
+    node<T>* current = m_head;
+    while (current->m_next->m_next) {
+        current = current->m_next;
+    }
+
+    delete current->m_next;
+    current->m_next = nullptr;
+    --m_size;
 }
 
 template <typename T>
-void linked_list<T>::erase(int pos)
+void linked_list<T>::erase(const int pos)
 {
     if (pos < 0 || pos >= m_size) {
         throw std::out_of_range("Invalid position for erase");
@@ -235,12 +240,18 @@ void linked_list<T>::revers()
 template <typename T>
 void linked_list<T>::sort()
 {
-    if (!m_head || !m_head->m_next) {
-        return;
+    m_head = sort_(m_head);
+}
+
+template <typename T>
+node<T>* linked_list<T>::sort_(node<T>* list)
+{
+    if (!list || !list->m_next) {
+        return list;
     }
 
-    node<T>* slow = m_head;
-    node<T>* fast = m_head->m_next;
+    node<T>* slow = list;
+    node<T>* fast = list->m_next;
 
     while (fast && fast->m_next) {
         slow = slow->m_next;
@@ -250,59 +261,9 @@ void linked_list<T>::sort()
     fast = slow->m_next;
     slow->m_next = nullptr;
 
-    linked_list<T> left;
-    linked_list<T> right;
-
-    left.m_head = m_head;
-    right.m_head = fast;
-
-    left.sort();
-    right.sort();
-
-    left.merge(right);
-}
-
-/*template <typename T>
-void linked_list<T>::merge(const linked_list<T>& list) 
-{
-    if (!list.m_head) {
-        return; 
-    }
-
-    node<T>* h1 = m_head;
-    node<T>* h2 = list.m_head;
-
-    node<T>* tmp = new node<T>;
-    node<T>* res = tmp;
-
-    while (h1 && h2) {
-        if (h1->m_data < h2->m_data) {
-            tmp->m_next = h1;
-            h1 = h1->m_next;
-        } else {
-            tmp->m_next = h2;
-            h2 = h2->m_next;
-        }
-        tmp = tmp->m_next;
-    }
-
-    if (h1) {
-        tmp->m_next = h1;
-    }
-
-    if (h2) {
-        tmp->m_next = h2;
-    }
-    
-    m_head = res->m_next; 
-
-    delete res;
-}*/
-
-template <typename T>
-void linked_list<T>::merge(const linked_list<T>& list) 
-{
-    m_head = merge_recursive(m_head, list.m_head);
+    node<T>* left = sort_(list);
+    node<T>* right = sort_(fast);
+    return merge_recursive(left, right);
 }
 
 template <typename T>

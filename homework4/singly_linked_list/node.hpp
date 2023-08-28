@@ -5,17 +5,29 @@ template <typename T>
 class node
 {
 public:
-    node(); // Default constructor
-    explicit node(const T& data); // Constructor with parameter
-    node(const T& data, node<T>* next); // Constructor with parameter
+    // Default constructor
+    node();
 
-    node(const node<T>& other); // Copy constructor
-    node<T>& operator=(const node<T>& other); // Copy assignment operator
+    // Constructor with parameter
+    explicit node(const T& data);
 
-    node(node<T>&& other) noexcept; // Move constructor
-    node<T>&& operator=(node<T>&& other) noexcept; // Move assignment operator
+    // Constructor with parameter
+    node(const T& data, node<T>* next);
 
-    ~node() = default; // Destructor
+    // Copy constructor
+    node(const node<T>& other);
+
+    // Copy assignment operator
+    node<T>& operator=(const node<T>& other);
+
+    // Move constructor
+    node(node<T>&& other) noexcept;
+
+    // Move assignment operator
+    node<T>&& operator=(node<T>&& other) noexcept;
+
+    // Destructor
+    ~node() = default;
 
 public:
     T m_data;
