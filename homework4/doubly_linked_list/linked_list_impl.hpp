@@ -273,4 +273,68 @@ void linked_list<T>::revers() {
     m_tail = temp;
 }
 
+template <typename T>
+void linked_list<T>::merge(linked_list<T>& list) 
+{
+    m_head = merge_recursive(m_head, list.m_head);
+    list.m_head = nullptr;
+}
+
+template <typename T>
+node<T>* linked_list<T>::merge_recursive(node<T>* l1, node<T>* l2)
+{
+    if (!l1) {
+        return l2;
+    }
+
+    if (!l2) {
+        return l1;
+    }
+
+    if (l1->m_data < l2->m_data) {
+        l1->m_next = merge_recursive(l1->m_next, l2);
+        if (l1->m_next) {
+            l1->m_next->m_prev = l1;
+        }
+        l1->m_prev = nullptr;
+        return l1;
+    } else {
+        l2->m_next = merge_recursive(l1, l2->m_next);
+        if (l2->m_next) {
+            l2->m_next->m_prev = l2;
+        }
+        l2->m_prev = nullptr;
+        return l2;
+    }
+}
+
+template <typename T>
+void linked_list<T>::sort()
+{
+    m_head = sort_(m_head);
+}
+
+template <typename T>
+node<T>* linked_list<T>::sort_(node<T>* list)
+{
+    if (!list || !list->m_next) {
+        return list;
+    }
+
+    node<T>* slow = list;
+    node<T>* fast = list->m_next;
+
+    while (fast && fast->m_next) {
+        slow = slow->m_next;
+        fast = fast->m_next->m_next;
+    }
+
+    fast = slow->m_next;
+    slow->m_next = nullptr;
+
+    node<T>* left = sort_(list);
+    node<T>* right = sort_(fast);
+    return merge_recursive(left, right);
+}
+
 #endif // LINKED_LIST_IMPL_HPP
