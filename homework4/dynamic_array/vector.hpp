@@ -9,6 +9,102 @@ template <typename T>
 class vector 
 {
 public:
+    class iterator 
+    {
+    public:
+        using iterator_category = std::random_access_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = T*;
+        using reference = T&;
+
+        iterator(pointer ptr)
+            : m_ptr(ptr) 
+        {
+        }
+
+        reference operator*() const
+        {
+            return *m_ptr;
+        }
+
+        pointer operator->() const
+        {
+            return m_ptr;
+        }
+
+        iterator& operator++()
+        {
+            ++m_ptr;
+            return *this;
+        }
+
+        iterator operator++(int) 
+        {
+            iterator tmp = *this;
+            ++m_ptr;
+            return tmp;
+        }
+
+        iterator& operator--()
+        {
+            --m_ptr;
+            return *this;
+        }
+
+        iterator operator--(int)
+        {
+            iterator tmp = *this;
+            --m_ptr;
+            return tmp;
+        }
+
+        iterator& operator+=(difference_type n)
+        {
+            m_ptr += n;
+            return *this;
+        }
+
+        iterator operator+(difference_type n) const 
+        {
+            return iterator(m_ptr + n);
+        }
+
+        iterator& operator-=(difference_type n) 
+        {
+            m_ptr -= n;
+            return *this;
+        }
+
+        iterator operator-(difference_type n) const 
+        {
+            return iterator(m_ptr - n);
+        }
+
+        difference_type operator-(const iterator& other) const 
+        {
+            return m_ptr - other.m_ptr;
+        }
+
+        reference operator[](difference_type n) const 
+        {
+            return *(m_ptr + n);
+        }
+
+        bool operator==(const iterator& other) const 
+        {
+            return m_ptr == other.m_ptr;
+        }
+
+        bool operator!=(const iterator& other) const 
+        {
+            return !(*this == other);
+        }
+
+    private:
+        pointer m_ptr;
+    };
+
     vector(); // Default constructor
     explicit vector(int size); // Constructor with parameter
 
@@ -65,6 +161,17 @@ public:
 
     // Const version of the above
     const T& operator[](const int pos) const; // O(1)
+    
+
+    iterator begin() 
+    {
+        return iterator(m_arr);
+    }
+
+    iterator end() 
+    {
+        return iterator(m_arr + m_size);
+    }
 
 private:
     T* m_arr; // Pointer to the dynamic array
